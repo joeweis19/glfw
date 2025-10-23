@@ -2,8 +2,8 @@ project "GLFW"
 kind "StaticLib"
 language "C"
 
-targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
-objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
+targetdir ("../Binaries/%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}")
+objdir ("../Binaries/Intermediates/%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}")
 
 files
 {
