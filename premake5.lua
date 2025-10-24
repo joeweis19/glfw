@@ -2,39 +2,62 @@ project "GLFW"
 kind "StaticLib"
 language "C"
 
-targetdir ("../Binaries/%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}")
-objdir ("../Binaries/Intermediates/%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}")
-
 files
 {
-    "include/GLFW/glfw3.h",
-    "include/GLFW/glfw3native.h",
-    "src/internal.h",
-    "src/platform.h",
-    "src/mappings.h",
-    "src/context.c",
     "src/init.c",
+    "src/context.c",
     "src/input.c",
     "src/monitor.c",
-    "src/platform.c",
-    "src/vulkan.c",
     "src/window.c",
-    "src/egl_context.c",
-    "src/osmesa_context.c",
-    "src/null_platform.h",
-    "src/null_joystick.h",
-    "src/null_init.c",
-
-    "src/null_monitor.c",
-    "src/null_window.c",
-    "src/null_joystick.c",
-
+    "src/vulkan.c",
+    "src/platform.c",
+    "src/internal.h",
+    "src/mappings.h"
 }
+
+filter "system:windows"
+    systemversion "latest"
+    staticruntime "off"
+    -- Place vendor outputs under the workspace Binaries tree (consistent with other projects)
+    targetdir ("%{wks.location}Binaries/windows-x86_64-%{cfg.buildcfg}/%{prj.name}")
+    objdir ("%{wks.location}Binaries/Intermediates/windows-x86_64-%{cfg.buildcfg}/%{prj.name}")
+
+    buildoptions { "/WX-" }
+
+    files
+    {
+        "src/win32_init.c",
+        "src/win32_module.c",
+        "src/win32_joystick.c",
+        "src/win32_monitor.c",
+        "src/win32_time.h",
+        "src/win32_time.c",
+        "src/win32_thread.h",
+        "src/win32_thread.c",
+        "src/win32_window.c",
+        "src/wgl_context.c",
+        "src/egl_context.c",
+        "src/osmesa_context.c",
+        "src/null_init.c",
+        "src/null_joystick.c",
+        "src/null_monitor.c",
+        "src/null_window.c",
+        "src/null_platform.h"
+    }
+
+    defines 
+    { 
+        "_GLFW_WIN32",
+        "_CRT_SECURE_NO_WARNINGS"
+
+    }
+
 filter "system:linux"
     pic "On"
-
     systemversion "latest"
-    staticruntime "On"
+    staticruntime "off"
+    targetdir ("%{wks.location}Binaries/%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}")
+    objdir ("%{wks.location}Binaries/Intermediates/%{cfg.system}-%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}")
 
     files
     {
@@ -54,37 +77,6 @@ filter "system:linux"
     {
         "_GLFW_X11"
         
-    }
-
-filter "system:windows"
-    systemversion "latest"
-    staticruntime "On"
-    
-    -- buildoptions{
-    --     "/MT"
-    -- }
-
-    files
-    {
-        "src/win32_init.c",
-        "src/win32_module.c",
-        "src/win32_joystick.c",
-        "src/win32_monitor.c",
-        "src/win32_time.h",
-        "src/win32_time.c",
-        "src/win32_thread.h",
-        "src/win32_thread.c",
-        "src/win32_window.c",
-        "src/wgl_context.c",
-        "src/egl_context.c",
-        "src/osmesa_context.c"
-    }
-
-    defines 
-    { 
-        "_GLFW_WIN32",
-        "_CRT_SECURE_NO_WARNINGS"
-
     }
 
 filter "configurations:Debug"
