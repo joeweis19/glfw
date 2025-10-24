@@ -19,8 +19,8 @@ filter "system:windows"
     systemversion "latest"
     staticruntime "off"
     -- Place vendor outputs under the workspace Binaries tree (consistent with other projects)
-    targetdir ("%{wks.location}Binaries/windows-x86_64-%{cfg.buildcfg}/%{prj.name}")
-    objdir ("%{wks.location}Binaries/Intermediates/windows-x86_64-%{cfg.buildcfg}/%{prj.name}")
+    targetdir ("%{wks.location}/Binaries/windows-x86_64-%{cfg.buildcfg}/%{prj.name}")
+    objdir ("%{wks.location}/Binaries/Intermediates/windows-x86_64-%{cfg.buildcfg}/%{prj.name}")
 
     buildoptions { "/WX-" }
 
